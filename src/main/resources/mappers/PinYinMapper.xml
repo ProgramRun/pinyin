@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oie.pinyin.dal.dao.IPinYinDAO">
+    <resultMap id="BaseResultMap" type="com.oie.pinyin.dal.entity.PinYin">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="unicode" property="unicode" jdbcType="SMALLINT"/>
+        <result column="unicode_hex" property="unicodeHex" jdbcType="SMALLINT"/>
+        <result column="zh_character" property="zhCharacter" jdbcType="VARCHAR"/>
+        <result column="cn_character" property="cnCharacter" jdbcType="VARCHAR"/>
+        <result column="hk_character" property="hkCharacter" jdbcType="VARCHAR"/>
+        <result column="tw_character" property="twCharacter" jdbcType="VARCHAR"/>
+        <result column="zh_pin_yin" property="zhPinYin" jdbcType="VARCHAR"/>
+        <result column="hk_pin_yin" property="hkPinYin" jdbcType="VARCHAR"/>
+        <result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_datetime" property="createDatetime" jdbcType="TIMESTAMP"/>
+        <result column="modify_user" property="modifyUser" jdbcType="VARCHAR"/>
+        <result column="modify_datetime" property="modifyDatetime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column">
+        id, `unicode`,unicode_hex, zh_character, cn_character, hk_character, tw_character, zh_pin_yin, hk_pin_yin
+    </sql>
+
+    <sql id="Base_Column_List">
+        <include refid="Base_Column"/>, create_user, create_datetime, modify_user, modify_datetime
+    </sql>
+
+    <select id="listByPK" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from pin_yin
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="listByUnicode" resultMap="BaseResultMap" parameterType="collection">
+        <foreach collection="collection" item="item" separator="union all">
+            SELECT
+            <include refid="Base_Column"/>
+            FROM
+            pin_yin
+            WHERE
+            `unicode`=#{item}
+        </foreach>
+    </select>
+
+
+    <insert id="insert" parameterType="com.oie.pinyin.dal.entity.PinYin">
+        insert into pin_yin
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="unicode != null">
+                `unicode`,
+            </if>
+            <if test="unicodeHex != null">
+                `unicode_hex`,
+            </if>
+            <if test="zhCharacter != null">
+                zh_character,
+            </if>
+            <if test="cnCharacter != null">
+                cn_character,
+            </if>
+            <if test="hkCharacter != null">
+                hk_character,
+            </if>
+            <if test="twCharacter != null">
+                tw_character,
+            </if>
+            <if test="zhPinYin != null">
+                zh_pin_yin,
+            </if>
+            <if test="hkPinYin != null">
+                hk_pin_yin,
+            </if>
+            <if test="createUser != null">
+                create_user,
+            </if>
+            <if test="createDatetime != null">
+                create_datetime,
+            </if>
+            <if test="modifyUser != null">
+                modify_user,
+            </if>
+            <if test="modifyDatetime != null">
+                modify_datetime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="unicode != null">
+                #{unicode,jdbcType=SMALLINT},
+            </if>
+            <if test="unicodeHex != null">
+                #{unicodeHex,jdbcType=VARCHAR},
+            </if>
+            <if test="zhCharacter != null">
+                #{zhCharacter,jdbcType=VARCHAR},
+            </if>
+            <if test="cnCharacter != null">
+                #{cnCharacter,jdbcType=VARCHAR},
+            </if>
+            <if test="hkCharacter != null">
+                #{hkCharacter,jdbcType=VARCHAR},
+            </if>
+            <if test="twCharacter != null">
+                #{twCharacter,jdbcType=VARCHAR},
+            </if>
+            <if test="zhPinYin != null">
+                #{zhPinYin,jdbcType=VARCHAR},
+            </if>
+            <if test="hkPinYin != null">
+                #{hkPinYin,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDatetime != null">
+                #{createDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyUser != null">
+                #{modifyUser,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyDatetime != null">
+                #{modifyDatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="updateByPK" parameterType="com.oie.pinyin.dal.entity.PinYin">
+        update pin_yin
+        <set>
+            <if test="unicode != null">
+                `unicode` = #{unicode,jdbcType=SMALLINT},
+            </if>
+            <if test="unicodeHex != null">
+                unicode_hex = #{unicodeHex,jdbcType=VARCHAR},
+            </if>
+            <if test="zhCharacter != null">
+                zh_character = #{zhCharacter,jdbcType=VARCHAR},
+            </if>
+            <if test="cnCharacter != null">
+                cn_character = #{cnCharacter,jdbcType=VARCHAR},
+            </if>
+            <if test="hkCharacter != null">
+                hk_character = #{hkCharacter,jdbcType=VARCHAR},
+            </if>
+            <if test="twCharacter != null">
+                tw_character = #{twCharacter,jdbcType=VARCHAR},
+            </if>
+            <if test="zhPinYin != null">
+                zh_pin_yin = #{zhPinYin,jdbcType=VARCHAR},
+            </if>
+            <if test="hkPinYin != null">
+                hk_pin_yin = #{hkPinYin,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDatetime != null">
+                create_datetime = #{createDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyUser != null">
+                modify_user = #{modifyUser,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyDatetime != null">
+                modify_datetime = #{modifyDatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

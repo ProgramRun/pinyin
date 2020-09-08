@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oie.pinyin.dal.dao.ILastNameDAO">
+    <resultMap id="BaseResultMap" type="com.oie.pinyin.dal.entity.LastName">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="zh_character" property="zhCharacter" jdbcType="VARCHAR"/>
+        <result column="zh_pin_yin" property="zhPinYin" jdbcType="VARCHAR"/>
+        <result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_datetime" property="createDatetime" jdbcType="TIMESTAMP"/>
+        <result column="modify_user" property="modifyUser" jdbcType="VARCHAR"/>
+        <result column="modify_datetime" property="modifyDatetime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column">
+        id, zh_character, zh_pin_yin
+    </sql>
+    <sql id="Base_Column_List">
+        <include refid="Base_Column"/>, create_user, create_datetime, modify_user, modify_datetime
+    </sql>
+
+    <select id="listByPK" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column"/>
+        from last_name
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="listByCharacter" resultMap="BaseResultMap" parameterType="hashmap">
+        select
+        <include refid="Base_Column"/>
+        from last_name
+        where `zh_character`= #{character}
+    </select>
+
+
+    <delete id="deleteByPK" parameterType="java.lang.Integer">
+        delete
+        from last_name
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+
+    <insert id="insert" parameterType="com.oie.pinyin.dal.entity.LastName">
+        insert into last_name
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="zhCharacter != null">
+                zh_character,
+            </if>
+            <if test="zhPinYin != null">
+                zh_pin_yin,
+            </if>
+            <if test="createUser != null">
+                create_user,
+            </if>
+            <if test="createDatetime != null">
+                create_datetime,
+            </if>
+            <if test="modifyUser != null">
+                modify_user,
+            </if>
+            <if test="modifyDatetime != null">
+                modify_datetime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="zhCharacter != null">
+                #{zhCharacter,jdbcType=VARCHAR},
+            </if>
+            <if test="zhPinYin != null">
+                #{zhPinYin,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDatetime != null">
+                #{createDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyUser != null">
+                #{modifyUser,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyDatetime != null">
+                #{modifyDatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="updateByPK" parameterType="com.oie.pinyin.dal.entity.PinYin">
+        update last_name
+        <set>
+            <if test="zhCharacter != null">
+                zh_character = #{zhCharacter,jdbcType=VARCHAR},
+            </if>
+            <if test="zhPinYin != null">
+                zh_pin_yin = #{zhPinYin,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUser != null">
+                modify_user = #{modifyUser,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyDatetime != null">
+                modify_datetime = #{modifyDatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+</mapper>
